@@ -2,38 +2,56 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 80vh; /* Sets the body height to 80% of the viewport height, centering the content vertically. */
+  height: 80vh;
+  background-color: gray;
 }
-
 .container {
   display: flex;
   align-items: center;
-  gap: 50px; /* Adds a 50-pixel gap between the arrow elements and the frame. */
+  gap: 50px;
+  flex-direction: column;
+}
+
+.container .top {
+  display: flex;
+  align-items: center;
+  gap: 50px;
 }
 
 .arrow {
   height: 150px;
-  cursor: pointer; /* Makes the arrows clickable. */
+  cursor: pointer;
 }
 
 .left {
-  transform: rotate(180deg); /* Rotates the left arrow by 180 degrees. */
+  transform: rotate(180deg);
 }
 
 .frame {
   width: 800px;
   height: 500px;
-  overflow: hidden; /* Hides any content that overflows the frame's boundaries. */
-  box-shadow: -1px 1px 10px rgba(0, 0, 0, 0.5); /* Adds a subtle shadow to the frame. */
+  overflow: hidden;
+  box-shadow: -1px 1px 10px rgba(0, 0, 0, 0.5);
 }
 
 .slider {
   display: flex;
-  transition: all 1s ease; /* Smoothly animates the slider transitions over 1 second. */
+  transition: all 1s ease;
 }
 
 .image {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensures the images cover the entire frame while maintaining aspect ratio. */
+  object-fit: cover;
+}
+.bottom {
+  display: flex;
+  gap: 30px;
+}
+.button {
+  width: 15px;
+  height: 15px;
+  border: 1px solid white;
+  border-radius: 50%;
+  cursor: pointer;
 }
