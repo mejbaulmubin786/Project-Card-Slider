@@ -20,6 +20,8 @@ buttons[0].style.backgroundColor = "white";
 const resetBg = () => {
   buttons.forEach((button) => {
     button.style.backgroundColor = "transparent";
+    button.addEventListener("mouseover", stopSlideShow);
+    button.addEventListener("mouseout", startSlideShow);
   });
 };
 
@@ -62,3 +64,26 @@ left.addEventListener("click", () => {
   slideNumber > 1 ? prevSlide() : getLastSlide();
   changeColor();
 });
+
+// Start auto Slider
+let slideInterval;
+
+const startSlideShow = () => {
+  slideInterval = setInterval(() => {
+    slideNumber < length ? nextSlide() : getFirstSlide();
+    changeColor();
+  }, 2000);
+};
+
+const stopSlideShow = () => {
+  clearInterval(slideInterval);
+};
+
+startSlideShow();
+
+slider.addEventListener("mouseover", stopSlideShow);
+slider.addEventListener("mouseout", startSlideShow);
+right.addEventListener("mouseover", stopSlideShow);
+right.addEventListener("mouseout", startSlideShow);
+left.addEventListener("mouseover", stopSlideShow);
+left.addEventListener("mouseout", startSlideShow);
