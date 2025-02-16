@@ -1,0 +1,137 @@
+/**
+ * Image Slider with Auto and Manual Navigation
+ * 
+ * This script provides functionality for an image slider with navigation buttons, auto-sliding, and manual controls.
+ * Users can navigate through images using left and right buttons or by clicking on the navigation indicators.
+ * The slider will also automatically transition between images every 2 seconds.
+ *
+ * Features:
+ * - Left and Right navigation buttons
+ * - Auto-sliding feature with pause on hover
+ * - Clickable navigation indicators for direct slide selection
+ * - Looping behavior for seamless cycling through images
+ */
+
+// Selecting required elements
+const left = document.querySelector(".left"); // Left navigation button
+const right = document.querySelector(".right"); // Right navigation button
+const slider = document.querySelector(".slider"); // Image slider container
+const images = document.querySelectorAll(".image"); // All images in the slider
+const length = images.length; // Total number of images
+let slideNumber = 1; // Current slide index
+
+// Creating navigation indicators dynamically
+const bottom = document.querySelector(".bottom");
+for (let i = 0; i < length; i++) {
+  const div = document.createElement("div"); // Create a new navigation button
+  div.className = "button"; // Assign a class to the button
+  bottom.appendChild(div); // Append the button to the navigation bar
+}
+
+const buttons = document.querySelectorAll(".button"); // All navigation buttons
+buttons[0].style.backgroundColor = "white"; // Highlight the first button by default
+
+/**
+ * Resets the background color of all navigation buttons.
+ */
+const resetBg = () => {
+  buttons.forEach((button) => {
+    button.style.backgroundColor = "transparent";
+    button.addEventListener("mouseover", stopSlideShow);
+    button.addEventListener("mouseout", startSlideShow);
+  });
+};
+
+/**
+ * Handles click events on navigation buttons to move to the corresponding slide.
+ */
+buttons.forEach((button, i) => {
+  button.addEventListener("click", () => {
+    resetBg();
+    slider.style.transform = `translateX(-${i * 800}px)`; // Move slider
+    slideNumber = i + 1;
+    button.style.backgroundColor = "white"; // Highlight the active button
+  });
+});
+
+/**
+ * Updates the navigation button color based on the current slide.
+ */
+const changeColor = () => {
+  resetBg();
+  buttons[slideNumber - 1].style.backgroundColor = "white";
+};
+
+/**
+ * Moves to the next slide or loops back to the first slide.
+ */
+const nextSlide = () => {
+  slider.style.transform = `translateX(-${slideNumber * 800}px)`;
+  slideNumber++;
+};
+
+/**
+ * Moves to the previous slide or loops back to the last slide.
+ */
+const prevSlide = () => {
+  slider.style.transform = `translateX(-${(slideNumber - 2) * 800}px)`;
+  slideNumber--;
+};
+
+/**
+ * Jumps to the first slide.
+ */
+const getFirstSlide = () => {
+  slider.style.transform = `translateX(0px)`;
+  slideNumber = 1;
+};
+
+/**
+ * Jumps to the last slide.
+ */
+const getLastSlide = () => {
+  slider.style.transform = `translateX(-${(length - 1) * 800}px)`;
+  slideNumber = length;
+};
+
+// Event listeners for manual navigation
+right.addEventListener("click", () => {
+  slideNumber < length ? nextSlide() : getFirstSlide();
+  changeColor();
+});
+
+left.addEventListener("click", () => {
+  slideNumber > 1 ? prevSlide() : getLastSlide();
+  changeColor();
+});
+
+// Auto slide functionality
+let slideInterval;
+
+/**
+ * Starts the automatic slideshow, changing slides every 2 seconds.
+ */
+const startSlideShow = () => {
+  slideInterval = setInterval(() => {
+    slideNumber < length ? nextSlide() : getFirstSlide();
+    changeColor();
+  }, 2000);
+};
+
+/**
+ * Stops the automatic slideshow.
+ */
+const stopSlideShow = () => {
+  clearInterval(slideInterval);
+};
+
+// Start the slideshow when the page loads
+startSlideShow();
+
+// Pause slideshow when hovering over elements, and resume when mouse leaves
+slider.addEventListener("mouseover", stopSlideShow);
+slider.addEventListener("mouseout", startSlideShow);
+right.addEventListener("mouseover", stopSlideShow);
+right.addEventListener("mouseout", startSlideShow);
+left.addEventListener("mouseover", stopSlideShow);
+left.addEventListener("mouseout", startSlideShow);
